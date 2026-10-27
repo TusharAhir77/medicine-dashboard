@@ -1,0 +1,238 @@
+/* ---------- Base ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --glass: rgba(255, 255, 255, 0.06);        /* almost fully transparent */
+  --glass-hover: rgba(255, 255, 255, 0.10);
+  --border: rgba(255, 255, 255, 0.18);
+  --line: rgba(255, 255, 255, 0.10);
+  --text: #f5f5f7;
+  --text-soft: rgba(245, 245, 247, 0.65);
+  --green: #6ee7a0;
+  --red: #ff8a8a;
+  --amber: #fcd34d;
+  --radius: 28px;
+}
+
+body {
+  font-family: -apple-system, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, #1a1c20 0%, #2a2d33 50%, #17181b 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---------- Soft gray shapes behind the glass ---------- */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 22s ease-in-out infinite alternate;
+}
+.b1 { width: 420px; height: 420px; background: rgba(150, 160, 175, 0.35); top: -100px; left: -80px; }
+.b2 { width: 380px; height: 380px; background: rgba(110, 120, 135, 0.35); bottom: -100px; right: -60px; animation-delay: -8s; }
+.b3 { width: 300px; height: 300px; background: rgba(190, 195, 205, 0.20); top: 45%; left: 50%; animation-delay: -14s; }
+
+@keyframes float {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(50px, 30px) scale(1.1); }
+}
+
+/* ---------- Clear glass (used by every panel) ---------- */
+.topbar, .card, .panel {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),   /* thin light edge on top */
+    0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  max-width: 1100px;
+  margin: 16px auto 0;
+  padding: 14px 24px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar h1 { font-size: 1.15rem; font-weight: 600; }
+
+.device-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.online  { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.7); }
+.dot.offline { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.6); }
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: 1100px;
+  margin: 24px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  gap: 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.card:hover { transform: translateY(-3px); background: var(--glass-hover); }
+
+.card-label { font-size: 0.85rem; color: var(--text-soft); margin-bottom: 8px; }
+.card-value { font-size: 1.7rem; font-weight: 600; line-height: 1.2; }
+
+/* ---------- Panels ---------- */
+.panel { border-radius: var(--radius); padding: 24px; }
+.panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; }
+.panel p { color: var(--text-soft); }
+
+/* ---------- Schedule ---------- */
+.schedule { list-style: none; display: grid; gap: 10px; }
+.schedule li {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+}
+
+.badge {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-soft);
+}
+.badge.taken   { background: rgba(74, 222, 128, 0.15);  color: var(--green); }
+.badge.missed  { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+.badge.pending { background: rgba(252, 211, 77, 0.14);  color: var(--amber); }
+
+/* ---------- Table ---------- */
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 12px 10px; }
+th {
+  font-size: 0.8rem; font-weight: 500;
+  color: var(--text-soft);
+  border-bottom: 1px solid var(--border);
+}
+td { border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: none; }
+
+/* ---------- Schedule form ---------- */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.form-row label { color: var(--text-soft); }
+
+select, input[type="time"] {
+  background: var(--glass);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color-scheme: dark;
+  outline: none;
+}
+select:focus, input[type="time"]:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+select option { background: #2a2d33; color: #f5f5f7; }
+
+.time-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.time-field { display: grid; gap: 6px; }
+.time-field span { font-size: 0.85rem; color: var(--text-soft); }
+.time-field input { width: 100%; }
+
+.btn {
+  background: var(--glass-hover);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.btn:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-1px); }
+.btn:disabled { opacity: 0.5; cursor: wait; }
+
+.msg { margin-top: 14px; min-height: 1.2em; font-size: 0.9rem; }
+.msg.ok    { color: var(--green); }
+.msg.error { color: var(--red); }
+
+/* ---------- Panel header with a button (Dose history) ---------- */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.panel-head h2 { margin-bottom: 0; }
+
+.btn-small { padding: 8px 18px; font-size: 0.9rem; }
+.btn-danger { color: var(--red); border-color: rgba(255, 138, 138, 0.4); }
+.btn-danger:hover { background: rgba(248, 113, 113, 0.15); }
+
+/* "Next" dose highlight in Today's schedule */
+.badge.next { background: rgba(252, 211, 77, 0.25); color: var(--amber); font-weight: 600; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .topbar { border-radius: 28px; padding: 12px 16px; }
+  .topbar h1 { font-size: 1rem; }
+  .card-value { font-size: 1.4rem; }
+  .schedule li { grid-template-columns: 1fr auto; }
+  .schedule li span:nth-child(2) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob, .card { animation: none; transition: none; }
+}
+
+/* ---------- Fallback if the browser has no blur support ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar, .card, .panel { background: rgba(40, 43, 50, 0.9); }
+}

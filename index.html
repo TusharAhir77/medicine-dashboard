@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background shapes for the glass effect -->
+  <div class="bg">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <h1>Smart Medicine Tracker</h1>
+    <div class="device-status">
+      <span id="statusDot" class="dot offline"></span>
+      <span id="statusText">Offline</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Summary cards -->
+    <section class="cards">
+      <div class="card">
+        <p class="card-label">Current status</p>
+        <p class="card-value" id="doseStatus">--</p>
+      </div>
+      <div class="card">
+        <p class="card-label">Next dose</p>
+        <p class="card-value" id="nextDose">--</p>
+      </div>
+      <div class="card">
+        <p class="card-label">Taken today</p>
+        <p class="card-value" id="takenToday">0</p>
+      </div>
+      <div class="card">
+        <p class="card-label">Missed today</p>
+        <p class="card-value" id="missedToday">0</p>
+      </div>
+    </section>
+
+    <!-- Set dose schedule -->
+    <section class="panel">
+      <h2>Set dose schedule</h2>
+
+      <div class="form-row">
+        <label for="doseCount">How many doses per day?</label>
+        <select id="doseCount">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+
+      <div id="timeInputs" class="time-inputs"></div>
+
+      <button id="saveBtn" class="btn" type="button">Save schedule</button>
+      <p id="saveMsg" class="msg"></p>
+    </section>
+
+    <!-- Daily schedule -->
+    <section class="panel">
+      <h2>Today's schedule</h2>
+      <ul id="scheduleList" class="schedule">
+        <li><span>Dose 1</span><span>08:00</span><span class="badge">Pending</span></li>
+        <li><span>Dose 2</span><span>14:00</span><span class="badge">Pending</span></li>
+        <li><span>Dose 3</span><span>21:00</span><span class="badge">Pending</span></li>
+      </ul>
+    </section>
+
+    <!-- History -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Dose history</h2>
+        <button id="clearBtn" class="btn btn-small btn-danger" type="button">Clear history</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date and time</th>
+            <th>Dose</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody">
+          <tr><td colspan="3">No records yet</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Charts (added in a later step) -->
+    <section class="panel">
+      <h2>Statistics</h2>
+      <p id="chartPlaceholder">Charts will appear here.</p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
